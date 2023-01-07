@@ -7,7 +7,7 @@ import UtilityBar from './components/UtilityBar';
 function App() {
   return (
     <>
-      <UtilityBar></UtilityBar>
+      
       
       <SortingVisualizer>
        

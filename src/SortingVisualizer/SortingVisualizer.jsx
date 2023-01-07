@@ -1,38 +1,42 @@
 import React from 'react'
 
 import * as sortingAlgorithms from '../sortingAlgorithms/sortingAlgorithms';
-
+import UtilityBar from '../components/UtilityBar';
 
 
 export default class SortingVisualizer extends React.Component{
     constructor(props){
         super(props);
-
+        this.UtilityBar1 = React.createRef();
         this.state = {
             array: [],
             intervalId: null,
             iteration: 0,
             arraySize: 74,
-            animationSpeed: 0,
-            inAnimation: false,
+            animationSpeed: 50,
 
         }
+        this.updateParentArraySize.bind(this);
+        this.updateParentAnimationSpeed.bind(this);
+       
     }
+
     componentDidMount(){
         this.generateArray();
     }
 
     //Create values for array upon mounting component
-    generateArray(){
+    generateArray = () =>{
         const newArray = [];
         for(let i=0; i< this.state.arraySize; i++){
             
             newArray.push({value: randomNumberInRange(5,750), backgroundImage : 'linear-gradient(rgb(36, 117, 209), rgb(122, 37, 187))'});
         }
-        this.setState({array : newArray, iteration: 0, animationSpeed : 100});
+        this.setState({array : newArray, iteration: 0, animationSpeed : this.state.animationSpeed});
     }
+   
 
-    sortCompleteAnimation(){
+    sortCompleteAnimation = () =>{
         let i = 0;
 
         const intervalTwo = window.setInterval(() =>{
@@ -55,11 +59,13 @@ export default class SortingVisualizer extends React.Component{
                     copiedArray[i].backgroundImage = 'linear-gradient(rgb(36, 117, 209), rgb(122, 37, 187))';
                 }
                 this.setState({array: copiedArray});
-                
+                //Set Child inAnim state to false
+                const UtilityBar1 = this.UtilityBar1.current;
+                UtilityBar1.setState({inAnim : false});
             }, 2000);
 
         }
-    quickSort(){
+    quickSort = () =>{
         
         let animation = [];
         let testArr = this.state.array.map(function(e){return e.value});
@@ -67,7 +73,6 @@ export default class SortingVisualizer extends React.Component{
         
         //console.log(testArr);
         this.setState({iteration : 0});
-
         const intervalId = window.setInterval(() =>{
             
             //1) Get two previous swaps from anim array
@@ -118,16 +123,13 @@ export default class SortingVisualizer extends React.Component{
         
     }
     
-    bubbleSort(){
+    bubbleSort = () =>{
         
 
         const animation = sortingAlgorithms.bubbleSort(this.state.array.map(function(e){return e.value}));
+
         this.setState({iteration : 0});
-        //Check if array is already sorted
-        // let splitArray = this.state.array.map(function(e){return e.value});
-        // const jsSortedArray = sort(splitArray);
-        //
-        
+
         const intervalId = window.setInterval(() =>{
             
             //1) Get two previous swaps from anim array
@@ -178,39 +180,45 @@ export default class SortingVisualizer extends React.Component{
         
     }
 
-    mergeSort(){
+    mergeSort = () =>{
 
     }
 
-    heapSort(){
+    heapSort = () =>{
 
     }
+  
+    updateParentArraySize=(sliderArraySize)=>{
+        this.setState({arraySize : sliderArraySize})
+        this.generateArray();
+    }
+    updateParentAnimationSpeed=(sliderAnimationSpeed)=>{
+        this.setState({animationSpeed : sliderAnimationSpeed});
+    }
 
-    //Manually change sorting method to test
-    testSortAlgorithm(){
-        for(let i = 0; i<40; i++){
-            const testedArray = [];
-            for(let i=0; i< 55; i++){
-                
-                testedArray.push(randomNumberInRange(5,750));
-            }
-            //Sorting algorithm array
-            const sortedArray = sortingAlgorithms.bubbleSort(testedArray);
-            //JS sorted array
-            const jsSortedArray = testedArray.sort();
-            console.log(arrayEquals(sortedArray, jsSortedArray));
-            
-        }
+    contextProp = {
+        generateArray : this.generateArray, 
+        bubbleSort: this.bubbleSort,
+        quickSort: this.quickSort,
+
+    }
+    contextState = {
+        updateParentArraySize : this.updateParentArraySize,
+        updateParentAnimationSpeed : this.updateParentAnimationSpeed,
+    }
     
-        
-    }
-
+    
     // For each value in the array map it to a div-array-bar with a key id
     render(){
         const {array} = this.state;
-        
+
         return(
             <>
+            <UtilityBar 
+                contextProp={this.contextProp}
+                contextState={this.contextState}
+                ref={this.UtilityBar1}
+            ></UtilityBar>
             <div className='array-container'>
             {array.map((value, idx) => (
                 
@@ -220,12 +228,7 @@ export default class SortingVisualizer extends React.Component{
                 
             ))}
             </div>
-            <button onClick={() => this.generateArray()}>Generate New Array</button>
-            <button onClick={() => this.quickSort()}>Quick Sort</button>
-            <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
-            <button onClick={() => this.generateArray()}>Merge Sort</button>
-            <button onClick={() => this.generateArray()}>Heap Sort</button>
-            <button onClick={() => this.testSortAlgorithm()}>Test Algorithm</button>
+            
             </>
            
         );
@@ -236,18 +239,6 @@ export default class SortingVisualizer extends React.Component{
 function randomNumberInRange(min, max) {
     
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function arrayEquals(arrayOne, arrayTwo){
-    if(arrayOne.length !== arrayTwo.length){
-        return false;
-    }else {
-        for(let i = 0; i<arrayOne.length; i++){
-            if(arrayOne[i] !== arrayTwo[i]){
-                return false;
-            }
-        }
-    }
-    return true;
 }
 
 function bSort(array){
@@ -267,6 +258,3 @@ function bSort(array){
     }
     return array;
 }
-
-
-
