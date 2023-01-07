@@ -1,4 +1,5 @@
-# Getting Started with Create React App
+# Live deployment of the project available at
+https://r-ramjattan.github.io/sorting-visualizer/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
