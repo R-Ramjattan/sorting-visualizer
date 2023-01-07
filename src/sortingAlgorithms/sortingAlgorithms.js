@@ -31,12 +31,12 @@ export const bubbleSort = array => {
 
 export const quickSort = (array, start, end, animation) => {
 
-    if(end - start <= 2){
+    if(end - start < 2){
         
         return;
     }
     //pivot index (midpoint)
-    let p = start + Math.floor((end-start)/2);
+    let p = start + Math.trunc((end-start)/2);
     
     p = partition(array, p, start, end, animation);
 
@@ -49,7 +49,7 @@ export const quickSort = (array, start, end, animation) => {
 
 function partition(array, p, start, end, animation){
     let l = start;
-    let h = end-1;
+    let h = end-2;
     let pivot = array[p];
 
     swap(array, p, end-1, animation);
@@ -67,6 +67,7 @@ function partition(array, p, start, end, animation){
     let mid = h;
     if(array[h] < pivot){
         mid++;
+        
     }
 
     swap(array, end-1, mid, animation);

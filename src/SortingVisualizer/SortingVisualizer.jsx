@@ -106,8 +106,6 @@ export default class SortingVisualizer extends React.Component{
             
             //5) Check to see if last iteration then remove interval
             if(this.state.iteration >= animation.length-1){
-                let ar = bSort(this.state.array);
-                this.setState({array:ar});
                 this.sortCompleteAnimation();
                 clearInterval(intervalId);
             }
