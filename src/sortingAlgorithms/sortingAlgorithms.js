@@ -1,4 +1,7 @@
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+                                                                         BUBBLE SORT BELOW                                                                               */
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const bubbleSort = array => {
 
     let temp = 0;
@@ -29,6 +32,10 @@ export const bubbleSort = array => {
     return animation;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+                                                                         QUICK SORT BELOW                                                                                */
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const quickSort = (array, start, end, animation) => {
 
     if(end - start < 2){
@@ -80,3 +87,48 @@ function swap(array, l, h, animation){
     array[h] = temp;
     animation.push({indexOne : l, indexTwo : h, isSwap : true});
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+                                                                            MERGE SORT BELOW                                                                             */
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export const mergeSort = (array, start, end, animation) => {
+    if(start === end){
+        return;
+    }
+
+    let mid = Math.floor((start+end) / 2);
+    mergeSort(array, start, mid, animation);
+    mergeSort(array, mid + 1, end, animation);
+    partitionMerge(array, start, end, animation);
+    
+
+}
+function nextoffset(offset){
+    if(offset <= 1) return 0;
+    return Math.ceil(offset/2);
+}
+
+// function swapTwo(nums, i, j, animation){
+//     let temp = nums[i];
+//     nums[i] = nums[j];
+//     nums[j] = temp;
+//     animation.push({indexOne : i, indexTwo : j, isSwap : true});
+
+// }
+
+function partitionMerge(array, start, end, animation){
+    let offset = end - start + 1;
+    for(offset = nextoffset(offset); offset > 0; offset = nextoffset(offset)){
+        for(let i = start; i + offset <= end; i++){
+            let j = i + offset;
+            if(array[i] > array[j]){
+                swap(array, i, j, animation);
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+                                                                            HEAP SORT BELOW                                                                              */
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

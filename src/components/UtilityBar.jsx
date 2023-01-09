@@ -25,15 +25,20 @@ export default class UtilityBar extends Component{
     this.props.contextState.updateParentArraySize(event.target.value);
     
   }
-
-  onClickQ(event){
+  //Grouping of events for onClick
+  onClickQuick(event){
     this.props.contextProp.quickSort();
     this.setState({inAnim : true});
   }
-  onClickB(event){
+  onClickBubble(event){
     this.props.contextProp.bubbleSort();
     this.setState({inAnim : true});
   }
+  onClickMerge(event){
+    this.props.contextProp.mergeSort();
+    this.setState({inAnim : true});
+  }
+  ////////////////////////////
  
   
  
@@ -44,9 +49,9 @@ export default class UtilityBar extends Component{
         <div className='title'>Sorting Algorithm Visualizer</div>
         <div className='util-btns'>
           <button className='btn' onClick={() => generateArray()} disabled={this.state.inAnim}>Generate New Array</button>
-          <button className='btn' onClick={() => this.onClickQ()} disabled={this.state.inAnim}>Quick Sort</button>
-          <button className='btn' onClick={() => this.onClickB()} disabled={this.state.inAnim}>Bubble Sort</button>
-          <button className='btn' disabled={this.state.inAnim} >Merge Sort</button>
+          <button className='btn' onClick={() => this.onClickQuick()} disabled={this.state.inAnim}>Quick Sort</button>
+          <button className='btn' onClick={() => this.onClickBubble()} disabled={this.state.inAnim}>Bubble Sort</button>
+          <button className='btn' onClick={() => this.onClickMerge()}disabled={this.state.inAnim} >Merge Sort</button>
           <button className='btn' disabled={this.state.inAnim}>Heap Sort</button>
           <h5>{this.state.inAnim}</h5>
           {/* <button className='play-button'></button> */}
