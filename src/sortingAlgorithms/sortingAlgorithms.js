@@ -101,20 +101,11 @@ export const mergeSort = (array, start, end, animation) => {
     mergeSort(array, mid + 1, end, animation);
     partitionMerge(array, start, end, animation);
     
-
 }
 function nextoffset(offset){
     if(offset <= 1) return 0;
     return Math.ceil(offset/2);
 }
-
-// function swapTwo(nums, i, j, animation){
-//     let temp = nums[i];
-//     nums[i] = nums[j];
-//     nums[j] = temp;
-//     animation.push({indexOne : i, indexTwo : j, isSwap : true});
-
-// }
 
 function partitionMerge(array, start, end, animation){
     let offset = end - start + 1;
@@ -127,7 +118,6 @@ function partitionMerge(array, start, end, animation){
         }
     }
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
                                                                             HEAP SORT BELOW                                                                              */

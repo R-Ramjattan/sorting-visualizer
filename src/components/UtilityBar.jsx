@@ -52,7 +52,7 @@ export default class UtilityBar extends Component{
           <button className='btn' onClick={() => this.onClickQuick()} disabled={this.state.inAnim}>Quick Sort</button>
           <button className='btn' onClick={() => this.onClickBubble()} disabled={this.state.inAnim}>Bubble Sort</button>
           <button className='btn' onClick={() => this.onClickMerge()}disabled={this.state.inAnim} >Merge Sort</button>
-          <button className='btn' disabled={this.state.inAnim}>Heap Sort</button>
+          <button className='btn' disabled={true}>Heap Sort</button>
           <h5>{this.state.inAnim}</h5>
           {/* <button className='play-button'></button> */}
         </div>
