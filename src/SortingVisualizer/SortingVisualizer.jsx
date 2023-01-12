@@ -68,13 +68,8 @@ export default class SortingVisualizer extends React.Component{
             }, 2000);
 
         }
-    quickSort = () =>{
-        
-        let animation = [];
-        let testArr = this.state.array.map(function(e){return e.value});
-        sortingAlgorithms.quickSort(testArr, 0, this.state.array.length, animation);
-        
-        //console.log(testArr);
+
+    playAnimation = (animation) =>{
         this.setState({iteration : 0});
         const intervalId = window.setInterval(() =>{
             
@@ -120,121 +115,34 @@ export default class SortingVisualizer extends React.Component{
             this.setState({array: this.state.array, iteration : iter });
 
             }, this.state.animationSpeed);
-      
+    }
+    quickSort = () =>{
+        
+        let animation = [];
+        //Map value property of array state
+        let testArr = this.state.array.map(function(e){return e.value});
+        sortingAlgorithms.quickSort(testArr, 0, this.state.array.length, animation);
+        
+        this.playAnimation(animation);
         
     }
     
     bubbleSort = () =>{
-        
-
-        const animation = sortingAlgorithms.bubbleSort(this.state.array.map(function(e){return e.value}));
+        //Map value property of array state
+        let mainArr = this.state.array.map(function(e){return e.value});
+        const animation = sortingAlgorithms.bubbleSort(mainArr);
 
         this.setState({iteration : 0});
-
-        const intervalId = window.setInterval(() =>{
-            
-            //1) Get two previous swaps from anim array
-            //2) Reset style
-            
-            if(this.state.iteration > 0){
-                let prevSwap = animation[this.state.iteration-1];
-                let copiedArray = this.state.array;
-                copiedArray[prevSwap.indexOne].backgroundImage = 'linear-gradient(rgb(36, 117, 209), rgb(122, 37, 187))';
-                copiedArray[prevSwap.indexTwo].backgroundImage = 'linear-gradient(rgb(36, 117, 209), rgb(122, 37, 187))';
-                this.setState({array : copiedArray});
-            }
-            
-            //3) Get two current swaps
-            //4) Set style
-            let currentSwap = animation[this.state.iteration];
-            
-            if(currentSwap.isSwap === true){
-                let copiedArray = this.state.array;
-                let temp = this.state.array[currentSwap.indexOne].value;
-                copiedArray[currentSwap.indexOne].value = this.state.array[currentSwap.indexTwo].value;
-                copiedArray[currentSwap.indexTwo].value = temp;
-                this.setState({array:copiedArray});
-                
-            }
-            let copiedArray = this.state.array;
-            copiedArray[currentSwap.indexOne].backgroundImage = 'linear-gradient(rgb(255, 0, 0), rgb(255, 0, 0))';
-            copiedArray[currentSwap.indexTwo].backgroundImage = 'linear-gradient(rgb(255, 0, 0), rgb(255, 0, 0))';
-            this.setState({array:copiedArray});
-            
-            //5) Check to see if last iteration then remove interval
-            if(this.state.iteration >= animation.length-1){
-                this.sortCompleteAnimation();
-                clearInterval(intervalId);
-            }
-
-            //6) increment iterator++
-            let iter = this.state.iteration;
-            iter++;
-            
-            this.setState({array: this.state.array, iteration : iter });
-
-        
-            }, this.state.animationSpeed);
-            
-              
-
-        
+        this.playAnimation(animation);
     }
 
     mergeSort = () =>{
         let animation = [];
+        //Map value property of array state
         let mainArr = this.state.array.map(function(e){return e.value});
         sortingAlgorithms.mergeSort(mainArr, 0, this.state.array.length-1, animation);
 
-        
-
-        this.setState({iteration : 0});
-        const intervalId = window.setInterval(() =>{
-            
-            //1) Get two previous swaps from anim array
-            //2) Reset style
-            
-            if(this.state.iteration > 0){
-
-                let prevSwap = animation[this.state.iteration-1];
-                let copiedArray = this.state.array;
-                copiedArray[prevSwap.indexOne].backgroundImage = 'linear-gradient(rgb(36, 117, 209), rgb(122, 37, 187))';
-                copiedArray[prevSwap.indexTwo].backgroundImage = 'linear-gradient(rgb(36, 117, 209), rgb(122, 37, 187))';
-                this.setState({array : copiedArray});
-
-            }
-            
-            //3) Get two current swaps
-            //4) Set style
-            let currentSwap = animation[this.state.iteration];
-            
-            if(currentSwap.isSwap === true){
-                let copiedArray = this.state.array;
-                let temp = this.state.array[currentSwap.indexOne].value;
-
-                copiedArray[currentSwap.indexOne].value = this.state.array[currentSwap.indexTwo].value;
-                copiedArray[currentSwap.indexTwo].value = temp;
-                this.setState({array:copiedArray});
-                
-            }
-            let copiedArray = this.state.array;
-            copiedArray[currentSwap.indexOne].backgroundImage = 'linear-gradient(rgb(255, 0, 0), rgb(255, 0, 0))';
-            copiedArray[currentSwap.indexTwo].backgroundImage = 'linear-gradient(rgb(55, 215, 101), rgb(55, 215, 101))';
-            this.setState({array:copiedArray});
-            
-            //5) Check to see if last iteration then remove interval
-            if(this.state.iteration >= animation.length-1){
-                this.sortCompleteAnimation();
-                clearInterval(intervalId);
-            }
-
-            //6) increment iterator++ and Set new array state
-            let iter = this.state.iteration;
-            iter++;
-            
-            this.setState({array: this.state.array, iteration : iter });
-
-            }, this.state.animationSpeed);
+        this.playAnimation(animation);
     }
 
     heapSort = () =>{
